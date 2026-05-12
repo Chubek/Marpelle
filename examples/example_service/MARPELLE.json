@@ -1,0 +1,9 @@
+{
+  "name": "example-service",
+  "version": "0.1.0",
+  "socket": "/tmp/marpelle-example.sock",
+  "commands": ["ping", "status"],
+  "register": true,
+  "pid_file": "/tmp/marpelle-example.pid",
+  "daemonize": false
+}
