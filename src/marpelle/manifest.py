@@ -23,6 +23,9 @@ class Manifest:
     umask: str | None = None
     user: str | None = None
     group: str | None = None
+    daemon_lua_file: str | None = None
+    ipc_backend: str = "unix"
+    c_compiler: str = "gcc"
 
 
 def _load_raw(path: Path) -> dict[str, Any]:
@@ -70,6 +73,9 @@ def load_manifest(path: str | Path) -> Manifest:
     umask = data.get("umask")
     user = data.get("user")
     group = data.get("group")
+    daemon_lua_file = data.get("daemon_lua_file")
+    ipc_backend = data.get("ipc_backend", "unix")
+    c_compiler = data.get("c_compiler", "gcc")
 
     for key, value in {
         "pid_file": pid_file,
@@ -77,9 +83,15 @@ def load_manifest(path: str | Path) -> Manifest:
         "umask": umask,
         "user": user,
         "group": group,
+        "daemon_lua_file": daemon_lua_file,
     }.items():
         if value is not None and not isinstance(value, str):
             raise ManifestError(f"manifest field '{key}' must be a string when provided")
+
+    if not isinstance(ipc_backend, str) or not ipc_backend.strip():
+        raise ManifestError("manifest field 'ipc_backend' must be a non-empty string")
+    if not isinstance(c_compiler, str) or not c_compiler.strip():
+        raise ManifestError("manifest field 'c_compiler' must be a non-empty string")
 
     if not isinstance(daemonize, bool):
         raise ManifestError("manifest field 'daemonize' must be boolean")
@@ -96,6 +108,9 @@ def load_manifest(path: str | Path) -> Manifest:
         umask=umask,
         user=user,
         group=group,
+        daemon_lua_file=daemon_lua_file,
+        ipc_backend=ipc_backend,
+        c_compiler=c_compiler,
     )
 
 

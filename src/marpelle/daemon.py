@@ -1,13 +1,19 @@
 from __future__ import annotations
 
-import os
+from typing import Any
 
 
-def daemonize() -> None:
-    if os.fork() > 0:
-        os._exit(0)
-    os.setsid()
-    if os.fork() > 0:
-        os._exit(0)
-    os.chdir("/")
-    os.umask(0)
+def daemonize(
+    working_directory: str = "/",
+    umask: int = 0,
+    detach_process: bool = True,
+) -> Any:
+    try:
+        import daemon
+    except Exception as exc:  # pragma: no cover
+        raise RuntimeError("python-daemon is required for daemon mode") from exc
+    return daemon.DaemonContext(
+        working_directory=working_directory,
+        umask=umask,
+        detach_process=detach_process,
+    )

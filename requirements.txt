@@ -1,3 +1,6 @@
 nuitka
 lmdb
 pyyaml
+lupa
+python-daemon
+jsonschema

@@ -26,3 +26,10 @@ def test_cli_register_writes_registry(tmp_path, monkeypatch):
         assert item.version == "1.2.3"
     finally:
         reg.close()
+
+
+def test_cli_parser_has_manifest_subcommand():
+    parser = make_parser()
+    args = parser.parse_args(["manifest", "validate"])
+    assert args.cmd == "manifest"
+    assert args.manifest_cmd == "validate"

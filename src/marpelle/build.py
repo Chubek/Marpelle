@@ -3,6 +3,7 @@ from __future__ import annotations
 import shlex
 import subprocess
 import sys
+import os
 from pathlib import Path
 
 
@@ -14,6 +15,7 @@ def build_with_nuitka(
     onefile: bool = False,
     output_name: str | None = None,
     extra_args: list[str] | None = None,
+    c_compiler: str | None = None,
 ) -> int:
     cmd = [
         sys.executable,
@@ -35,5 +37,8 @@ def build_with_nuitka(
 
     cmd.append(str(entry.resolve()))
     print("+", shlex.join(cmd))
-    proc = subprocess.run(cmd, check=False)
+    env = os.environ.copy()
+    if c_compiler:
+        env["CC"] = c_compiler
+    proc = subprocess.run(cmd, check=False, env=env)
     return proc.returncode

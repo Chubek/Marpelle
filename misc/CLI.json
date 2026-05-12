@@ -1,0 +1,84 @@
+{
+  "prog": "marpelle",
+  "description": "Marpelle local service manager",
+  "colors": {
+    "title": "magenta",
+    "section": "cyan",
+    "command": "green",
+    "argument": "yellow",
+    "muted": "light_grey"
+  },
+  "global_args": [
+    {"short": "-h", "long": "--help", "help": "Show help for root or a subcommand"},
+    {"short": "-v", "long": "--version", "help": "Show version loaded from VERSION.yaml"}
+  ],
+  "commands": {
+    "list": {"help": "List registered services", "args": []},
+    "status": {"help": "Show service status", "args": [{"name": "service", "help": "Service name"}]},
+    "send": {
+      "help": "Send IPC command",
+      "args": [
+        {"name": "service", "help": "Service name"},
+        {"name": "command", "help": "Command to execute"},
+        {"long": "--payload", "help": "JSON object payload", "default": "{}"}
+      ]
+    },
+    "register": {
+      "help": "Register a running service",
+      "args": [
+        {"long": "--manifest", "help": "Path to manifest"},
+        {"long": "--name", "help": "Service name"},
+        {"long": "--socket", "help": "Socket path"},
+        {"long": "--version", "help": "Service version", "default": "unknown"},
+        {"long": "--pid", "help": "Process ID"},
+        {"long": "--state", "help": "State", "default": "running"},
+        {"long": "--started-at", "help": "Unix start timestamp"},
+        {"long": "--updated-at", "help": "Unix update timestamp"}
+      ]
+    },
+    "unregister": {"help": "Remove service from registry", "args": [{"name": "service", "help": "Service name"}]},
+    "cleanup": {"help": "Cleanup stale registry entries", "args": []},
+    "build": {
+      "help": "Build with Nuitka",
+      "args": [
+        {"name": "entry", "help": "Entry python file"},
+        {"long": "--manifest", "help": "Path to manifest"},
+        {"long": "--output", "help": "Output filename"},
+        {"long": "--standalone", "help": "Build standalone binary"},
+        {"long": "--onefile", "help": "Build onefile binary"},
+        {"long": "--extra-arg", "help": "Extra Nuitka argument (repeatable)"},
+        {"long": "--c-compiler", "help": "Override C compiler (default from manifest: gcc)"}
+      ]
+    },
+    "run": {
+      "help": "Run service runtime",
+      "args": [
+        {"long": "--manifest", "help": "Path to MARPELLE.json/.yaml"},
+        {"long": "--hooks", "help": "Hooks module name", "default": "marpelle_hooks"},
+        {"long": "--daemon", "help": "Force daemon mode"},
+        {"long": "--daemon-lua", "help": "Path to DAEMON.lua"}
+      ]
+    },
+    "daemon-spec": {
+      "help": "Inspect parsed DAEMON.lua",
+      "args": [
+        {"long": "--manifest", "help": "Path to manifest"},
+        {"long": "--daemon-lua", "help": "Path to DAEMON.lua"}
+      ]
+    },
+    "manifest": {
+      "help": "Manifest utilities",
+      "args": [],
+      "subcommands": {
+        "show": {
+          "help": "Show parsed manifest",
+          "args": [{"long": "--path", "help": "Path to manifest"}]
+        },
+        "validate": {
+          "help": "Validate manifest schema",
+          "args": [{"long": "--path", "help": "Path to manifest"}]
+        }
+      }
+    }
+  }
+}

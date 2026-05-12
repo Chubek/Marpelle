@@ -1,0 +1,16 @@
+$identity:
+  $author: "Chubak Bidpaa <chubakbidpaa@riseup.net>"
+  $compay: "Poyan Afzaar Fanaavar"
+  $license: "MIT"
+
+versions: 
+  - initial_version:
+    - major: 1
+    - minor: 0
+    - match: 0
+    - description: |
+         Release date: ${date +"%Y-%m"} 
+         Version: ${make_version}
+         Created by $author for $company.
+         All rights reserved.
+         Relased under the $license license.
